@@ -8,6 +8,7 @@ import { RouterLink } from '@angular/router';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 
 @Component({
   selector: 'app-root',
@@ -22,6 +23,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     MatTooltipModule,
     MatInputModule,
     MatFormFieldModule,
+    MatDatepickerModule,
+  
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
