@@ -58,7 +58,7 @@ export class DialogAddUserComponent {
       this.user.birthDate = this.birthDate.getTime();
     }
     this.loading = true;
-    addDoc(this.userCollection, { ...this.user })
+    addDoc(this.userCollection, this.user.toJSON())
       .then((docRef) => {
         this.loading = false;
         console.log('User added with ID:', docRef.id);

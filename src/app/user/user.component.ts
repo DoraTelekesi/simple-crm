@@ -16,11 +16,18 @@ import { User } from '../../models/user.class';
 import { MatCardModule } from '@angular/material/card';
 import { Firestore, collection, collectionData } from '@angular/fire/firestore';
 import { doc, onSnapshot } from 'firebase/firestore';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-user',
   standalone: true,
-  imports: [MatIconModule, MatButtonModule, MatTooltipModule, MatCardModule],
+  imports: [
+    RouterLink,
+    MatIconModule,
+    MatButtonModule,
+    MatTooltipModule,
+    MatCardModule,
+  ],
   templateUrl: './user.component.html',
   styleUrl: './user.component.scss',
 })
