@@ -1,6 +1,7 @@
 export class User {
   firstName: string;
   lastName: string;
+  email: string;
   birthDate: number;
   street: string;
   zipCode: number;
@@ -10,9 +11,20 @@ export class User {
     // wenn wir ein new User () bauen, können wir machen ohne json hinzuzufügen
     this.firstName = obj ? obj.firstName : '';
     this.lastName = obj ? obj.lastName : '';
+    this.email = obj ? obj.email : '';
     this.birthDate = obj ? obj.birthDate : '';
     this.street = obj ? obj.street : '';
     this.zipCode = obj ? obj.zipCode : '';
     this.city = obj ? obj.city : ''; //wir müssen überprüfen ob diese Object existiert
   }
+}
+
+export interface User {
+  id?: string; // Optional if you're using Firestore doc ID
+  firstName: string;
+  lastName: string;
+  birthDate: number;
+  street: string;
+  zipCode: number;
+  city: string;
 }

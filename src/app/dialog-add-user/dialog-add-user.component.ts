@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import {
   MatDialog,
   MAT_DIALOG_DATA,
@@ -15,6 +15,11 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { User } from '../../models/user.class';
 import { FormsModule } from '@angular/forms';
+import { Firestore, collection, collectionData } from '@angular/fire/firestore';
+import { addDoc } from '@angular/fire/firestore';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { NgIf } from '@angular/common';
+import { MatCardModule } from '@angular/material/card';
 
 @Component({
   selector: 'app-dialog-add-user',
@@ -27,6 +32,9 @@ import { FormsModule } from '@angular/forms';
     MatInputModule,
     MatDatepickerModule,
     FormsModule,
+    MatProgressBarModule,
+    NgIf,
+    MatCardModule,
   ],
   templateUrl: './dialog-add-user.component.html',
   styleUrl: './dialog-add-user.component.scss',
@@ -35,12 +43,27 @@ import { FormsModule } from '@angular/forms';
 export class DialogAddUserComponent {
   user: User = new User();
   birthDate?: Date;
+  firestore: Firestore = inject(Firestore);
+
+  userCollection = collection(this.firestore, 'users');
+
+  loading = false;
+  constructor(
+    firestore: Firestore,
+    public dialogRef: MatDialogRef<DialogAddUserComponent>
+  ) {}
 
   saveUser() {
-  if (this.birthDate) {
-    this.user.birthDate = this.birthDate.getTime();
-  }
-
-    console.log('user', this.user);
+    if (this.birthDate) {
+      this.user.birthDate = this.birthDate.getTime();
+    }
+    this.loading = true;
+    addDoc(this.userCollection, { ...this.user })
+      .then((docRef) => {
+        this.loading = false;
+        console.log('User added with ID:', docRef.id);
+        this.dialogRef.close();
+      })
+      .catch((err) => console.error('Error adding user:', err));
   }
 }
