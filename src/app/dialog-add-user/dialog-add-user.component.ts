@@ -20,7 +20,8 @@ import { addDoc } from '@angular/fire/firestore';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { NgIf } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
-
+import { UserService } from '../firebase-services/user.service';
+import { Input } from '@angular/core';
 @Component({
   selector: 'app-dialog-add-user',
   standalone: true,
@@ -41,29 +42,50 @@ import { MatCardModule } from '@angular/material/card';
   providers: [provideNativeDateAdapter()],
 })
 export class DialogAddUserComponent {
-  user: User = new User();
+  // user: User = new User();
   birthDate?: Date;
-  firestore: Firestore = inject(Firestore);
+  // firestore: Firestore = inject(Firestore);
 
-  userCollection = collection(this.firestore, 'users');
+  // userCollection = collection(this.firestore, 'users');
+// @Input() user = User;
+  firstName = '';
+  lastName = '';
+  email = '';
+  street = '';
+  zipCode = 0;
+  city = '';
 
   loading = false;
   constructor(
-    firestore: Firestore,
+    private userService: UserService,
     public dialogRef: MatDialogRef<DialogAddUserComponent>
   ) {}
 
   saveUser() {
-    if (this.birthDate) {
-      this.user.birthDate = this.birthDate.getTime();
-    }
-    this.loading = true;
-    addDoc(this.userCollection, this.user.toJSON())
-      .then((docRef) => {
-        this.loading = false;
-        console.log('User added with ID:', docRef.id);
-        this.dialogRef.close();
-      })
-      .catch((err) => console.error('Error adding user:', err));
+    let user: User = {
+      firstName: this.firstName,
+      lastName: this.lastName,
+      email: this.email,
+      birthDate: this.birthDate ? this.birthDate.getTime() : Date.now(),
+      street: this.street,
+      zipCode: this.zipCode,
+      city: this.city,
+    };
+
+    this.userService.addUser(user);
+    this.dialogRef.close();
   }
+  // saveUser() {
+  //   if (this.birthDate) {
+  //     this.user.birthDate = this.birthDate.getTime();
+  //   }
+  //   this.loading = true;
+  //   addDoc(this.userCollection, this.user.toJSON())
+  //     .then((docRef) => {
+  //       this.loading = false;
+  //       console.log('User added with ID:', docRef.id);
+  //       this.dialogRef.close();
+  //     })
+  //     .catch((err) => console.error('Error adding user:', err));
+  // }
 }

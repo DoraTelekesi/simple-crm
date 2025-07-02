@@ -6,10 +6,10 @@
         <th>E-Mail</th>
         <th>City</th>
       </tr>
-      @for(user of users; track user){
+      @for(user of getUsers(); track user){
       <tr [routerLink]="['/user/' + user.id]">
         <td>{{ user.firstName }} {{ user.lastName }}</td>
-        <td>{{ user.street }}</td>
+        <td>{{ user.email }}</td>
         <td>{{ user.city }}</td>
       </tr>
       }
@@ -27,3 +27,11 @@
 >
   <mat-icon>add</mat-icon>
 </button>
+
+<!-- <ul>
+    @for (user of (this.userService.users$ | async); track user) {
+      <li>
+        {{ user['firstName'] }}
+      </li>
+    }
+  </ul> -->

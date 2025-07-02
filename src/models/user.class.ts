@@ -8,29 +8,28 @@ export class User {
   zipCode: number;
   city: string;
 
-  constructor(obj?: any) {
-    this.id = obj?.id || '';
-    // wenn wir ein new User () bauen, können wir machen ohne json hinzuzufügen
-    this.firstName = obj ? obj.firstName : '';
-    this.lastName = obj ? obj.lastName : '';
-    this.email = obj ? obj.email : '';
-    this.birthDate = obj ? obj.birthDate : '';
-    this.street = obj ? obj.street : '';
-    this.zipCode = obj ? obj.zipCode : '';
-    this.city = obj ? obj.city : ''; //wir müssen überprüfen ob diese Object existiert
-  }
+constructor(obj?: any) {
+  this.id = obj?.id || '';
+  this.firstName = obj?.firstName || '';
+  this.lastName = obj?.lastName || '';
+  this.email = obj?.email || '';
+  this.birthDate = obj?.birthDate ?? 0;     // ✅ number fallback
+  this.street = obj?.street || '';
+  this.zipCode = obj?.zipCode ?? 0;         // ✅ number fallback
+  this.city = obj?.city || '';
+}
 
-  toJSON(): any {
-    return {
-      firstName: this.firstName,
-      lastName: this.lastName,
-      email: this.email,
-      birthDate: this.birthDate,
-      street: this.street,
-      zipCode: this.zipCode,
-      city: this.city,
-    };
-  }
+// toJSON(): any {
+//   return {
+//     firstName: this.firstName ?? '',
+//     lastName: this.lastName ?? '',
+//     email: this.email ?? '',
+//     birthDate: this.birthDate ?? 0,
+//     street: this.street ?? '',
+//     zipCode: this.zipCode ?? 0,
+//     city: this.city ?? '',
+//   };
+// }
 }
 
 // export interface User {
